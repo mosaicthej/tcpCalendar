@@ -28,5 +28,14 @@ propagation delay for each network, assuming the following:
     with the speed of signal propagation in each case equal to 
     200,000 km/s (approximately 2/3 of the speed of light in a vacuum).
 
+### Solution 1
+
+| Type | Total Delay (s) | Percent Delay that is propagation |
+|-|-|-|
+| OCN | 2.13583 E-8 | 0.12% |
+| SAN | 4.63333 E-8 | 53.96%|
+| LAN | 2.50213 E-5 | 99.91%|
+| WAN | 0.02500     | 100%  |
+
 
 
