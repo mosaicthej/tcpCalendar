@@ -1,0 +1,299 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR"
+ content="Mozilla/4.76 [en] (X11; U; Linux 2.4.18-17.7.x i686) [Netscape]">
+  <title>CMPT 434 Assignment 1 - 2023-24</title>
+</head>
+<body>
+<img src="splashBanner.gif" align="middle">
+<h1> CMPT 434 - COMPUTER NETWORKS - Winter 2023/2023
+<br>
+University of Saskatchewan
+<br>
+Assignment 1: Physical/Data Link Layer and TCP programming<br>
+</h1>
+<b>Instructor:</b> Dwight Makaroff <br>
+<b>Out: </b>January 12, 2024<br>
+<b>Due:</b> 9:30AM, February 2, 2024 <br>
+
+<p>Total Marks: 80.
+
+<p> This is an individual assignment.
+  
+<P> <b>Part A: Physical Layer and Data Link Layer Properties </b> (20 marks).
+
+<p>
+For all questions in Part A, show your work, so part marks can be
+given for correct reasoning, but faulty mathematical execution.
+
+<ol>
+<li><p>
+<i>(4 marks)</i> Consider two nodes connected by a single dedicated link
+within an OCN (on-chip network), SAN (system/storage area network),
+LAN (local area network), or WAN (wide-area network), and suppose that
+we wish to transmit a single 100 byte (including header) packet from
+one node to the other. Calculate the <b>total delay</b> and
+the <b>percentage of delay which is propagation delay</b> for each network,
+assuming the following:
+<ul>
+<li>
+the link data rate is 6 Gbps;</li>
+<li>
+there is no queueing delay;</li>
+<li>
+ the total node processing delay (not overlapped with any other
+  component of delay) is x + (0.8 nanoseconds/byte), where x (the
+  portion of this delay that is independent of packet size) is 0
+  microseconds for the OCN, 0.6 microseconds for the SAN, 6
+  microseconds for the LAN, and 60 microseconds for the WAN; and </li>
+<li>
+the link distances are 0.5 cm, 5m, 5000m, and 5000 km, for the OCN,
+SAN, LAN, and WAN, respectively, with the speed of signal propagation
+in each case equal to 200,000 km/s (approximately 2/3 of the speed of
+light in a vacuum). </li>
+</ul>
+
+<li><p>
+<i>(4 marks)</i>
+<ul>
+<li>
+What is the minimum bandwidth needed to achieve a data rate
+of <i>B</i> bits/sec if the signal is transmitted using NRZ, MLT-3,
+and Manchester encoding, respectively? Explain your answer. </li>
+<li>
+Ten signals, each requiring 4000 Hz, are multplexed onto a channel
+using FDM. What is the minimum bandwidth required for the multiplexed
+channel? Assume that the guard bands are 400 Hz wide. </li>
+</ul>
+<li><p>
+<i>(4 marks)</i>
+<ul>
+<li>
+Suppose that data is transmitted in blocks of 1000 bits. What is the
+maximum error rate under which using an error detection and retransmission
+mechanism (1 parity bit per block) is better than using Hamming code?
+Assume that bit errors are independent of one another and no bit error
+occurs during retransmission. </li>
+<li>
+A 3000-km-long T1 trunk is used to transmit 64-byte frames
+using <i>Go-Back-N</i>. If the propagation speed is 6 &mu;sec/km, how
+many bits should the sequence numbers be?
+</li>
+</ul>
+
+<li><p>
+<i>(4 marks)</i>
+<ul>
+<li>Frames of 1000 bits are sent over a 1-Mbps channel using a
+geostationary satellite whose propagation time from the earth is 270
+msec. Acknowlegdements are always piggybacked onto data frames. The
+headers are very short. Three-bit sequence numbes are used. What is
+the maximum achievable channel utilization for
+<ul>
+<li>stop-and-wait?
+<li>Go-Back-N?
+<li>Selective repeat?
+</ul>
+<li> a 100-km-long cable runs at the T1 data rate. The propagation
+  speed in the cable is 2/3 the speed of light in a vacuum. How many
+  bits fit in the cable?
+</ul>
+
+<li><p>
+<i>(4 marks)</i>
+ Consider a source and destination pair connected by a
+network path of capacity 100 Mbps and an average round-trip time of 40
+ms (measured from when the source transmits the first bit of a packet
+until the destination's ack is received). Assume a packet size of 1000
+bytes.
+<ul>
+<li type="a"> Give the maximum achievable data transfer rate in Mbps, assuming
+use of the <i>stop-and-wait</i> reliable data transfer protocol, and that
+the loss probability is negligibly small.
+<li type="a"> Give the maximum achievable data transfer rate in Mbps, assuming
+use of a sliding window reliable data transfer protocol with maximum
+sender window sizes of 1, 10, and 100, and that the loss probability
+is negligibly small.
+</ul>
+</ol>
+
+<p> <b>Part B: Client-Server Socket Programming</b> (60 marks)
+<p>
+The objective of this part of the assignment is to remind you of the
+  socket API, become familiar with TCP, and implement
+  different strategies for server implementations.
+
+<p>
+The application you are to write is a calendar server, based on
+TCP. The server should be capable of handling 
+multiple connections at a time, and therefore must use some method of
+parallel connection and processing at the server.
+
+<p>
+Correspondingly, you will need to write client applications that make
+requests of the server. In order to have this work, you need to define
+a protocol (i.e. define how messages are formatted and transmitted),
+implement that protocol and then write the appropriate client and
+server programs.
+
+<p><b>Operations to support:</b>
+<ol>
+<li>Add a new calendar event.
+<li>Remove a calendar event. 
+<li>Update an existing calendar event. 
+<li>Get the events for a specific time or time range. 
+</ol>
+<p>
+There are no other requirements regarding the protocol, i.e., you are
+free to decide the protocol details, e.g., the message structure and
+content for the client/server communication.
+
+<p><b>Client implementation</b>
+<p>
+The client is a simple program that takes several arguments and
+contacts the server and prints the response received from the
+server. The syntax for the client should be the following:
+<ol>
+<li type ="A">Adding an event: <tt>./mycal hostname port myname add
+    date start-time end-time Event-title </tt>
+<li type="A">Removing an event: <tt>./mycal hostname port myname
+    remove date start-time </tt>
+<li type="A">Updating an event: <tt>./mycal hostname port myname
+    update date start-time end-time Event-Title </tt>
+<li type="A">Getting an event 1: <tt>./mycal hostname port myname get
+    date time </tt>
+<li type="A">Getting an event 2: <tt>./mycal hostname port myname get
+    date </tt>
+<li type="A">Getall events: <tt>./mycal hostname port myname getall </tt>
+
+</ol>
+
+<p>
+In all cases 'myname' is a string that identifies a user (e.g., login
+name). In (A), you specify the date, the beginning and end time of the
+event, and a single word identifying the type of event (e.g., exam,
+doctor, trip, meeting, ...). You can assume that no event can go
+beyond 2400 of the same day (i.e., every event has to be finished by
+midnight at the latest). In (B), you specify the
+date and the beginning time of an event. If successful the client will
+receive an acknowledgment from the server. If the event does not
+exist, the client will be notified by the server and the client
+informs the user. In (C), you specify an event as in (A), however,
+either the ending time or the event type has to be different (or
+both). Again, the client will inform the user if the operation was
+successful. In (D), the server returns the type of the event
+requested, if the event does not exist, the client informs the
+user. In (E), if only the date is specified, all events of
+that day are returned. In (F), the client first asks the server how
+many entries the calendar file has for the client 'myname' and if the
+response is nonzero, the client requests each entry individually,
+with 2 seconds delay between requests. Once all events have been
+received, the client notifies the server of the end of the connection.
+
+
+<p>
+Further, the server's hostname and port number have to be passed to
+the client as command line arguments. Ports 30001 to 40000 are
+available for use.
+
+<p><b>Server Implementation</b>
+
+<p>
+The server waits for requests from clients.  When a request is
+received, the proper data should be returned via the specified protocol.
+
+<p>The format of the data storage should be as simple as possible. A
+  main memory data structure should be able to be used (use your list
+  implementation from CMPT 332, where each user has their own
+  list). Sort the lists on start-time of the event.   Lists should be
+  deleted when the last item is removed. List
+  implementations may be shared. If you didn't take CMPT 332 from me,
+  it is possible that alternate arrangements can be made.
+
+<p>You are required to provide three different server implementations:
+
+<ul>
+<li>
+Approach Based on Select(): A single-threaded server is used,
+  but the server can handle multiple clients (and open sockets) with
+  the select() system call.
+
+<li>  
+Multi-Threaded Approach: Here, multiple threads are used
+  to handle requests in parallel (i.e., each new request is handled by
+  a newly created thread). Use Posix-threads to create new
+threads.
+
+<li>
+Multi-Process server. Here, multiple processes are used
+  to handle requests in parallel (i.e., each new request is handled by
+  a newly created process). The parent forks a child for every
+  request, and the child exits when the connection is finished.
+</ul>
+
+In ALL versions of the server, you must consider <b>race conditions</b> 
+with multiple concurrent
+connections. This will involve the use of some concurrency control
+mechanism to control access to the "database" that holds the calendar
+events. It may be possible for the same user to be connected
+simultaneously, or for 2 new users to contact the server
+simultaneously, so that access to the lists must be protected. Posix semaphores,
+or implementation of a readers/writers protocol are options.
+<p>
+<b>BONUS 1:</b> If there is a conflict with another already stored event,
+optionally the client will be notified by the server and the client
+informs the user (e.g. "Conflict detected!").
+<p>
+<b>BONUS 2:</b> On every request to the server, remove all events for all
+users if their end time is in the past. 
+
+<p>
+<b>FINAL NOTE:</b> All programming practises required for CMPT 332 must be
+followed:
+<ul>
+<li>Check the return values from system calls
+<li>Check the command-line parameters
+<li>Compile with -Wall -pedantic
+<li>Any more defensive programming measures that come to mind.
+</ul>
+
+<p>You will need 1 client (TCP) and 3 servers (select(),
+  Posix-threads, Multi-process). Reuse as much code as possible.
+
+<h3> Hand In Instructions</h3>
+<p>
+
+Create a directory for this assignment:
+<ul>
+  <li> Place in this directory your assignment including the following:</li>
+  <ul>
+    <li>N separate PDF documents named Question_n.pdf (where n is the
+    number of the question). </li>
+    <li>Source code, header files, and makefile to compile the various
+    binary programs. </li>
+    <li>GIT logs for your progress and proper version control
+    practices.</li>
+    <li>Protocol design document: <tt>protocol.design.txt</tt>.</li>
+    <li>Client and server program design document: <tt>PartB.design.txt</tt>.</li>
+    <li>Testing showing message transmission and reception, and proper database
+	updates.</li>
+  </ul>
+
+  <li> Now you are ready to hand in your assignment. To do so you are
+going to make a <span style="font-weight: bold;">tar</span> file, and
+upload it to Blackboard's assignment hand-in. All files in the main
+    directory of the tar file, no subdirectories.
+A marking script will then untar the assignment. Please do not gzip
+    the file. I've had problems with 
+different students using different versions of the compression program
+and it just takes too much TA time, or requires a more complicated
+    script to extract the necessary files.</li>
+  <li> That's it - you are done.</li>
+</ul>
+
+
+</body>
+</html>
