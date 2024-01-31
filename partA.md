@@ -1,6 +1,6 @@
 # part A
 
-## Q1 (4 marks) 
+## Q1 ( 4 )
 
 Consider two nodes connected by a single dedicated link within an 
     OCN (on-chip network), 
@@ -38,4 +38,18 @@ propagation delay for each network, assuming the following:
 | WAN | 0.02500     | 100%  |
 
 Detailed calculation see the spread sheet (below if you viewing pdf)
+
+## Q2 ( 4 )
+
+What is the minimum bandwidth needed to achieve a data rate of `B bits/sec` 
+if the signal is transmitted using 
+ - NRZ,
+ - MLT-3, and 
+ - Manchester encoding, 
+ respectively? Explain your answer.
+
+### A2.1
+
+
+Ten signals, each requiring 4000 Hz, are multplexed onto a channel using FDM. What is the minimum bandwidth required for the multiplexed channel? Assume that the guard bands are 400 Hz wide.
 
