@@ -37,5 +37,5 @@ propagation delay for each network, assuming the following:
 | LAN | 2.50213 E-5 | 99.91%|
 | WAN | 0.02500     | 100%  |
 
-
+Detailed calculation see the spread sheet (below if you viewing pdf)
 
