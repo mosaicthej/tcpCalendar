@@ -1,3 +1,9 @@
+---
+- Name: Mark Jia
+- NSID: mij623
+- StuN: 11271998
+---
+
 # part A
 
 ## Q1 ( 4 )
