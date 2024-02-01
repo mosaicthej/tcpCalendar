@@ -114,5 +114,26 @@ $$
 
 Hence, the minimum bandwidth needs to be $B$ Hz.
 
-Ten signals, each requiring 4000 Hz, are multplexed onto a channel using FDM. What is the minimum bandwidth required for the multiplexed channel? Assume that the guard bands are 400 Hz wide.
+### A2.2 FDM
+Ten signals, each requiring 4000 Hz, 
+are multplexed onto a channel using FDM. 
+
+What is the minimum bandwidth required for the multiplexed channel? 
+Assume that the guard bands are 400 Hz wide.
+
+#### FDM
+
+Each chan-> 4 kHz, each guard-> 0.4 kHz
+
+10 signals would need 9 guard bands.
+
+$$
+\begin{align}
+10 \times 4 \text{ kHz} + 9 \times 0.4 \text{ kHz}\\
+&=43.6 \text{ kHz}
+\end{align}
+$$
+
+The minimum bandwidth for this multiplexed channel is 43.6 kHz.
+
 
