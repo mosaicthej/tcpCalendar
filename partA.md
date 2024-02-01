@@ -55,7 +55,64 @@ if the signal is transmitted using
  respectively? Explain your answer.
 
 ### A2.1
+use $w$ to represent `bandwidth` to avoid confusion
+(since $B$ is used as the data rate (in bits/sec))
 
+Nyquist:
+ B = $2w log_2 V$ bits/sec
+ w: bandwidth
+ V: discrete levels
+
+#### NRZ
+binary -> 2 states: V=2
+
+$$
+\begin{align}
+B &= 2w log_2 V \\
+  &= 2w \times 1 \\
+  &= 2w\\
+w &= \frac{B}{2}
+\end{align}
+$$
+
+minimum bandwidth needs to be $\frac{B}{2}$ Hz
+
+#### MLT-3
+
+Has three possible states => V=3
+
+To encode any 1 bit (information is 1 or 0), 
+    it could be one of three states (-1, 0, 1).
+
+Hence, to encoding B bits (2^B of information), 
+it would have (3^B) different encodings in MLT-3.
+
+So B bits as the data would mean $\frac{3^B}{2^B}\times B$ information sent
+    through physical layer, which, $log_2{3^B}=B\times log_2 3$ bits
+$$
+\begin{align}
+& log_2 3 \times B &= 2w log_2 3 \\
+& w &= \frac{B}{2}
+\end{align}
+$$
+
+The minimum bandwidth needs to be $\frac{B}{2}$ Hz
+
+#### Manchester
+
+Has 50% coding effieiency (the other half is for clocking info)
+Hence, to send B bits $=2^B$ information, requires an encoding of 2B bits of
+    data sent through physical.
+
+$$
+\begin{align}
+& 2\times B &= 2w log_2 2\\
+&   w &= \frac{B}{log_2 2}\\
+&   w &= B
+\end{align}
+$$
+
+Hence, the minimum bandwidth needs to be $B$ Hz.
 
 Ten signals, each requiring 4000 Hz, are multplexed onto a channel using FDM. What is the minimum bandwidth required for the multiplexed channel? Assume that the guard bands are 400 Hz wide.
 
