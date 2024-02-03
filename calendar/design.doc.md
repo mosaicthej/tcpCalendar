@@ -105,6 +105,17 @@ differnt event names you can come up with.
 
 Go get yourself a hash table if you can't manage to fit your event names.
 
+### Date
+
+Date is encoded as 16 bits field.
+
+Set epoch to 1900-01-01, we can support dates from 1900 to 2080.
+
+If I have time, 
+it should follow the rules of the Gregorian calendar, including leap years.
+
+For now, just assume every month has 30 days.
+
 
 ## Client
 
