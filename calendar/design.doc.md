@@ -338,6 +338,40 @@ Header (read 15 more) -> ... -> 15th event (read 15 more) -> ... -> last event (
 
 So this way the server can send as many events as it wants (and order is preserved).
 
+## Database
+
+The database is a simple file-based database.
+
+Would only have 1 entity: `event`, with 6 fields:
+- `username`  
+- `eventname` 
+- `date`      
+- `startTime` 
+- `endTime`   
+- `valid`
+
+For the scope and purpose of this assignment, it should be enogh.
+
+This table is pretty normalized as well.
+
+There is no need for data to be packed, since we only care to save the payload
+through network, we don't care about the disk usage. (but still, not as crazy
+to use plain regular text file).
+
+I'm planning something like a column storage -> Each column is a file.
+The size of each field might vary, but the cardinality 
+Each DML operation would be going to affect 1 row of the file,
+and each DQL operation would be require a scanning of certain column(s), and 
+access entire row by taking from each file seek to the same offset.
+
+Since it's a file, it should be persistent.
+
+To avoid leaving holes in the DB and have different conflicts, a deletion will
+only be a "soft deletion", i.e., to only set the `valid` field off.
+
+If a row with it's valid field is off, then that means any access to that row
+would be invalidated.
+
 **Disclaimer**: 
 We assume the user is an *intelligent* human being with the ability 
     to NOT break the application in every possible way.
