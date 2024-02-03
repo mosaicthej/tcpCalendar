@@ -55,11 +55,11 @@ If we have a 128 bit computer, entire request can be put into a single register!
 
 | field | len | bits field |
 |-------|-----|------------|
-| opcode| 1   | [0]        |
-| clTime| 21  | [1-21]     |
-| date  | 16  | [22-37]    |
-| uname | 30  | [38-67]    |
-| ename | 60  | [68-127]   |
+| opcode| 1   | `[0]`        |
+| clTime| 21  | `[1-21]`     |
+| date  | 16  | `[22-37]`    |
+| uname | 30  | `[38-67]`    |
+| ename | 60  | `[68-127]`   |
 
 Note that the `len` is in bits.
 
