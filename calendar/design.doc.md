@@ -22,7 +22,7 @@ Consists of three main components:
 - Server
 - Database
 
-## Protocol
+## Protocol－Request
 
 Trying to achieve a protocol between the client and the server that will
 save as much bandwidth as possible. That means we need to pack as much 
@@ -55,8 +55,8 @@ But per my design, each request would only take 128 bits (16 bytes).
 If we have a 128 bit computer, entire request can be put into a single register!
 (afaik, there isn't any such computer yet, the best they do is 128 bit SIMD)
 
-| field | len | bits field |
-|-------|-----|------------|
+| field | len |  bits field  |
+|-------|-----|--------------|
 | opcode| 1   | `[0]`        |
 | clTime| 21  | `[1-21]`     |
 | date  | 16  | `[22-37]`    |
@@ -298,7 +298,45 @@ it's an `UPDATE` command with 2 time fields.
 
 ### Summary
 
-Therefore, I define each request to be 128 bits (16 bytes) in length
+Therefore, I define each request to be 128 bits (16 bytes) in length.
+
+Lol, the amount of work to implement this would be making me killing myself 💀
+
+## Protocol－Response
+
+Depending on the command, the server would respond with different payloads of data.
+
+### Single status response
+
+For commands that is analogous to a DML command in SQL, the server would simply
+respond with a single status code.
+
+This would be the case for `ADD`, `UPDATE`, `REMOVE` commands.
+
+The status code would be 1 byte (shortest possible payload).
+
+Including the information about what type of command was executed.
+
+### Event data response
+
+For command that is analogous to a DQL command in SQL, the server would respond
+with a status code followed by a list of events.
+
+The single status code would have a part of the payload that, if on success, 
+notifies the number of events that are returned (size).
+
+Each event would be 60 bits in length, 
+use 4 additional bits to pad to 64 bits -> 8 bytes.
+
+Since there are only 4 bits for the size data, the client would at most take 15
+events at a time. However, this is not anywhere near being useful.
+
+So the end of the last event's padding would be used to indicate if there are
+more events to be fetched. And so on (kind of like a linked list).
+
+Header (read 15 more) -> ... -> 15th event (read 15 more) -> ... -> last event (no more)
+
+So this way the server can send as many events as it wants (and order is preserved).
 
 **Disclaimer**: 
 We assume the user is an *intelligent* human being with the ability 
@@ -306,4 +344,3 @@ We assume the user is an *intelligent* human being with the ability
 Therefore, the error handling is minimal.
 All user input is valid, and will result in valid action. 
 It's just a matter of "doing what the user REALLY thinks they want to do".
-
