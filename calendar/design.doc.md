@@ -43,6 +43,14 @@ That might be able to save a bit from `command`, to encode things like
 - `GET2` which would require no time field.
 - `GETALL` which would require no time field.
 
+That way, I'd be able to encode all possible commands:
+`ADD`, `UPDATE`, `REMOVE`, `GET1`, `GET2`, `GETALL` into 1 bit!
+(i'm not drunk when i wrote this)
+
+That would become easier to explain once we get to the design of the time fields.
+
+But first, let's first define how the user-input message (username, eventname)
+is encoded.
 
 ## Client
 
