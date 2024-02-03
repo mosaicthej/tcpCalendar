@@ -1,4 +1,6 @@
 ---
+Definitely not GPT generated, but:
+ - I hope this design doc finds you well.
 ---
 
 # TCP Calendar
@@ -294,7 +296,9 @@ The opcode is a 1 bit field, which is used to encode command types.
 it's an `UPDATE` command with 2 time fields.
 - If `opcode` is `1`, and `clTime` is a special pattern, then it's a special command.
 
-## Client
+### Summary
+
+Therefore, I define each request to be 128 bits (16 bytes) in length
 
 **Disclaimer**: 
 We assume the user is an *intelligent* human being with the ability 
