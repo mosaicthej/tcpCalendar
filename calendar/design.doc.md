@@ -157,6 +157,142 @@ it should follow the rules of the Gregorian calendar, including leap years.
 
 For now, just assume every month has 30 days.
 
+### clTime
+
+This is the fun part.
+
+At most, we'd need 2 time fields: start and end time. (sometimes just 1 time)
+
+To encode HHMM time, it would need $24\cdot60=1440$ different values,
+which, would need 11 bits. 2 such fields would need 22 bits.
+
+But, there is a catch: the `endTime` can only be a time after `startTime`.
+
+Thinking about `deltaTime` instead of `endTime`, then `deltaTime` would have
+$\sum_{i=1}^{1440} i = 1440\cdot\frac{1441}{2} = 1037520$ different values,
+which, not can fit into 21 bits (and still have some patterns left).
+
+Another thing that makes our life easier is that, since to encode time need
+$1440$ different values, which is just a tiny bit more than $2^{10}=1024$,
+and, let's say, in case that the `startTime` takes more than 10 bits, 
+(more than $1024$ minutes, from 00:00 to 18:56), the max `deltaTime` would be
+$1440-1024=416$, which is enough with 9 bits. 
+(that's how we save 1 bit to encode more commands)
+
+#### So, here is the plan
+
+(because this way makes the math eaiser (I won't explain what if the althernative))
+
+`startTime` would be encoded in *inversedMinutes*, that mean, a value of $0$ would
+mean 23:59, and a value of $1439$ would mean 00:00.
+
+Use the highest (20th) bit to indicate if that *inversedMinutes* exceeds 1024 or not.
+
+So, *inversedMinutes* <=> `[20|(20?8:9)-0]`
+(if 20th bit is 1, then 9 bits (8-0) are used, otherwise 10 bits (9-0) are used)
+
+##### **Case if *inversedMinutes* less than 1024**
+
+$$
+\begin{align*}
+\text{let }& t_0 \text{ be the startTime in minutes} \\
+t_0 &= 1439 - \text{inversedMinutes} \\
+0 &\leq \text{inversedMinutes} \leq 1023 \\
+\therefore 416 &\leq t_0 \leq 1439 \\
+\\
+\text{let } \Delta_t &\text{ be the deltaTime} \\
+\text{knowing that } \Delta_t &\text{ can at most bring the endTime to 1439}\\
+\text{and }& \text{ can at least bring the endTime to }t_0 \\
+\\
+\Delta_{max} &= 1439 - t_0 \\
+    &= 1439 - (1439 - \text{inversedMinutes}) \\
+    &= \text{inversedMinutes} \\
+\Delta_{min} &= 0 \\
+\\
+\therefore \\
+0 \leq \Delta_{min} &\leq \Delta_t \leq \Delta_{max} \leq 1023 \\
+\end{align*}
+$$
+
+We conclude that, in case that the *inversedMinutes* is less than 1024, it would be sufficient to use 10 bits to encode the `deltaTime`.
+
+if `[20] LOW`, then `deltaTime` <=> `[19-10]`, `startTime` <=> `[9-0]`
+
+##### **Case if *inversedMinutes* exceeds 1024**
+
+In this case, `exceeds` <=> `[20] HIGH` and the rest of the bit would be have
+values at most $1439-1024=415$, which is enough to fit into 9 bits `[8-0]`.
+Which, leaves room for `deltaTime` to be encoded in 11 bits `[19-9]`.
+
+if `[20] HIGH`, then `deltaTime` <=> `[19-9]`, `startTime` <=> `[8-0]`
+
+*inversedMinutes* <=> `[20|(20?8:9)-0]`
+*deltaTime* <=> `[19-(20?9:10)]`
+
+#### Special rules:
+
+there are some patterns that would never be used as time, for example,
+when `exceeds` is `HIGH`, then *9-bit low bits field* `[8-0]` would at most 
+have a value of $415$, which is less than $512$. Thus, if we set all bits to
+some value $k\geq416$, then we can use those pattern to encode special commands
+that does not require 2 time fields, and use the bit field `[19-9]` to encode
+the single time field.
+
+##### REMOVE encoding
+REMOVE date start-time
+
+Need 1 time field.
+`exceeds` is `HIGH`, then `[8-0]` set to $504$ `1 1111 1000`
+
+The time field would be encoded in `[19-9]` as numbers of minutes from 00:00.
+
+##### GET1 encoding
+GET date start-time
+
+Need 1 time field.
+`exceeds` is `HIGH`, then `[8-0]` set to $505$ `1 1111 1001`
+
+The time field would be encoded in `[19-9]` as numbers of minutes from 00:00.
+
+##### GET2 encoding
+GET date
+
+Need no time field.
+`exceeds` is `HIGH`, then `[8-0]` set to $506$ `1 1111 1010`
+
+The bit field `[19-9]` needs to be set all set to $1$, check this,
+if it's not, then it's an error of invalid encoding for GET2.
+
+##### GETALL encoding
+GETALL
+
+Need no time field.
+`exceeds` is `HIGH`, then `[8-0]` set to $511$ `1 1111 1111`
+
+The bit field `[19-9]` needs to be set all set to $1$, check this,
+if it's not, then it's an error of invalid encoding for GETALL.
+
+##### summary
+
+| command | `[20]` |     `[19-9]`    |        `[8-0]`      |
+|---------|--------|-----------------|---------------------|
+| REMOVE  | 1      | min-after 00:00 | `1 1111 1000` (504) |
+| GET1    | 1      | min-after 00:00 | `1 1111 1001` (505) |
+| GET2    | 1      | fill with `1`   | `1 1111 1010` (506) |
+| GETALL  | 1      | fill with `1`   | `1 1111 1111` (511) |
+
+to have `[20] HIGH` and `[8-0]` $k\geq 416$, above would be the only
+valid encodings, other patterns would be invalid and server should return
+an error.
+
+### Opcode
+
+The opcode is a 1 bit field, which is used to encode command types.
+
+- If `opcode` is `0`, then it's an `ADD` command with 2 time fields.
+- If `opcode` is `1`, and if the `clTime` is not a special pattern, then
+it's an `UPDATE` command with 2 time fields.
+- If `opcode` is `1`, and `clTime` is a special pattern, then it's a special command.
 
 ## Client
 
