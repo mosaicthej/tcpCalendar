@@ -44,13 +44,54 @@ That might be able to save a bit from `command`, to encode things like
 - `GETALL` which would require no time field.
 
 That way, I'd be able to encode all possible commands:
-`ADD`, `UPDATE`, `REMOVE`, `GET1`, `GET2`, `GETALL` into 1 bit!
+`ADD`, `UPDATE`, `REMOVE`, `GET1`, `GET2`, `GETALL` into **1 bit**!
 (i'm not drunk when i wrote this)
 
 That would become easier to explain once we get to the design of the time fields.
 
-But first, let's first define how the user-input message (username, eventname)
-is encoded.
+But per my design, each request would only take 128 bits (16 bytes). 
+If we have a 128 bit computer, entire request can be put into a single register!
+(afaik, there isn't any such computer yet, the best they do is 128 bit SIMD)
+
+| field | len | bits field |
+|-------|-----|------------|
+| opcode| 1   | [0]        |
+| clTime| 21  | [1-21]     |
+| date  | 16  | [22-37]    |
+| uname | 30  | [38-67]    |
+| ename | 60  | [68-127]   |
+
+Note that the `len` is in bits.
+
+### Overview of each part
+
+#### Opcode
+
+1 bit field, use fields from `clTime` to encode additional commands.
+
+#### clTime
+
+Calendar Time, 21 bits field, 
+
+Contain both start and end time, accurate to minutes.
+
+since some patterns will never be used as time, we can use them to encode
+for commands like `REMOVE`, `GET1`, `GET2`, `GETALL`.
+
+#### Date
+
+16 bits field (this is the result of saving bits from here and there)
+
+16 bits would support a range of 65536 calendar days, which is about 180 years.
+
+More than enough for anyone to use (unless timetravellers)
+
+Set epoch to 1900-01-01, and we can support dates from 1900 to 2080.
+
+#### Uname and Ename
+
+User input fields, each varchar takes 6 bits, so 30 and 60 bits respectively.
+
 ### varchars
 
 The username and eventname are encoded as varchars.
