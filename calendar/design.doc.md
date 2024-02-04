@@ -337,6 +337,52 @@ Header (read 32 more) -> ... -> 32th event (read 32 more) -> ... -> last event (
 
 So this way the server can send as many events as it wants (and order is preserved).
 
+### Encoding
+
+We pack each response into a 104 bits (13 bytes) payload.
+
+|   field   | len |   desc   |
+|-----------|-----|----------|
+|`[103]`    | 1   | success? |
+|`[102]`    | 1   | has body?|
+|`[101-81]` | 21  | clTime   |
+|`[80-65]`  | 16  | date     |
+|`[64-5]`   | 60  | event    |
+|`[4-0]`    | 5   | more?    |
+
+**success?**: 1 bit, 1 on success, 0 on failure.
+
+**has body?**: 1 bit, 1 if there is a body in this response. 0 if not
+    0 is used for res to `ADD`, `UPDATE`, `REMOVE` commands.
+    In this case, the rest of the payload is required to be 0.
+
+**clTime**: 21 bits, same as in request.
+
+**date**: 16 bits, same as in request.
+
+**event**: 60 bits, same as in request.
+
+**more?**: 5 bits.
+    This is useful in the case of `GETALL` command, to indicate if there are
+    more events to be fetched.
+    These 5 bits can represent up to 31 more events to be fetched, so will
+    know how many more bytes to read.
+    If there's more than 31 events to be fetched, then the end of the last
+    event's padding would be used to indicate to read $n$ more events.
+
+In case of a non-tail event of the response, this field is required be 0.
+
+There is a special case for `ADD` and `UPDATE` commands to handle the case
+where the the failure is due to the event has conflicting time with an existing
+event. Hence the top 2 bits: `success?` and `has body?` would be `[0|1]`. 
+This is a failure with body, and the rest of the payload would be the
+conflicting event.
+
+yea... An alternative approach would be first send a header of success and size,
+then send the events in the following payload. But that would limit the size
+to 127 events, have the it would be quite inconvenient to get the bytes to be
+aligned. So I'm happy with this approach where each response is guaranteed to
+be 13 bytes in length.
 
 
 Would only have 1 entity: `event`, with 6 fields:
