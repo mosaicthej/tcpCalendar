@@ -20,7 +20,6 @@ The construction of the protocol should center around the following:
 Consists of three main components:
 - Client
 - Server
-- Database
 
 ## Protocol－Request
 
@@ -293,7 +292,7 @@ The opcode is a 1 bit field, which is used to encode command types.
 
 - If `opcode` is `0`, then it's an `ADD` command with 2 time fields.
 - If `opcode` is `1`, and if the `clTime` is not a special pattern, then
-it's an `UPDATE` command with 2 time fields.
+    it's an `UPDATE` command with 2 time fields.
 - If `opcode` is `1`, and `clTime` is a special pattern, then it's a special command.
 
 ### Summary
@@ -334,13 +333,11 @@ events at a time. However, this is not anywhere near being useful.
 So the end of the last event's padding would be used to indicate if there are
 more events to be fetched. And so on (kind of like a linked list).
 
-Header (read 15 more) -> ... -> 15th event (read 15 more) -> ... -> last event (no more)
+Header (read 32 more) -> ... -> 32th event (read 32 more) -> ... -> last event (no more)
 
 So this way the server can send as many events as it wants (and order is preserved).
 
-## Database
 
-The database is a simple file-based database.
 
 Would only have 1 entity: `event`, with 6 fields:
 - `username`  
@@ -354,27 +351,14 @@ For the scope and purpose of this assignment, it should be enogh.
 
 This table is pretty normalized as well.
 
-There is no need for data to be packed, since we only care to save the payload
-through network, we don't care about the disk usage. (but still, not as crazy
-to use plain regular text file).
 
-I'm planning something like a column storage -> Each column is a file.
-The size of each field might vary, but the cardinality 
-Each DML operation would be going to affect 1 row of the file,
-and each DQL operation would be require a scanning of certain column(s), and 
-access entire row by taking from each file seek to the same offset.
 
-Since it's a file, it should be persistent.
 
-To avoid leaving holes in the DB and have different conflicts, a deletion will
-only be a "soft deletion", i.e., to only set the `valid` field off.
 
-If a row with it's valid field is off, then that means any access to that row
-would be invalidated.
 
 **Disclaimer**: 
 We assume the user is an *intelligent* human being with the ability 
     to NOT break the application in every possible way.
 Therefore, the error handling is minimal.
-All user input is valid, and will result in valid action. 
+All user input is valid, and will result in valid action.
 It's just a matter of "doing what the user REALLY thinks they want to do".
