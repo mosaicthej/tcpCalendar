@@ -14,6 +14,10 @@
 #define NUM_COMMANDS 5
 #define ALLOWED_COMMANDS (char*[]){CMD_ADD, CMD_REMOVE, CMD_UPDATE, CMD_GET, CMD_GETALL}
 
+#define REQLEN 16
+#define RESLEN 13
+#define RESBATCHSIZE 31
+
 /*
  * use the command as enum, since that makes the most readable,
  * also the packed attribute to ensure smallest possible size.
