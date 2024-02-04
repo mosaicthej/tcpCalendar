@@ -150,3 +150,40 @@ We assume the user is an *intelligent* human being with the ability
 Therefore, the error handling is minimal.
 All user input is valid, and will result in valid action.
 It's just a matter of "doing what the user REALLY thinks they want to do".
+
+## Utilities
+
+The client and server will have their own utilities to handle the parts where
+not directly related to the TCP connection.
+
+### Client utilities
+
+**strstructc**: between string and data structure for client.
+- Validate the input.
+- Parse the command line arguments to data structure (`request_t`).
+- Format and `response_t` data structure to strings that is ready to output.
+
+**payloadstructc**: between payload and data structure for client.
+- Validate the payload received from the server. (check for invalid response)
+- Pack the data structure into a payload.
+- Unpack the payload into a data structure.
+
+Request handling:
+
+user input (`char*[]`) -> client -> strstructc -> client (request_t) -> payloadstructc -> client (char*[16]) -> TCP -> server
+
+Response handling:
+
+TCP -> client (char*[13]) -> payloadstructc -> client (response_t) -> strstructc -> client -> user output (`char*`)
+
+### Server utilities
+
+**payloadstructs**: between payload and data structure for server.
+- Validate the payload received from the client. (check for invalid request)
+- Unpack the payload into a data structure (`request_t`).
+- Pack the `response_t` data structure into a payload.
+
+**dbops**: database operations.
+- lock and unlock the mutex (`mutex`, `read_lock`, `write_lock`)
+- select, insert, update, delete
+- create new user list
