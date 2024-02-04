@@ -1,3 +1,9 @@
+# ---
+# - Name: Mark Jia
+# - NSID: mij623
+# - StuN: 11271998
+# ---
+
 # the list library is borrowed from John Miller from 332 Fa23
 # this makefile is incomplete, don't run it
 CC = gcc

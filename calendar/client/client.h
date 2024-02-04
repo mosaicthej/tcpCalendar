@@ -1,3 +1,11 @@
+/*
+---
+- Name: Mark Jia
+- NSID: mij623
+- StuN: 11271998
+---
+Minimal modification from Beej's Guide to Network Programming
+*/
 
 /* gcc specific optimization... */
 #define GCC_PACKED __attribute__((packed))

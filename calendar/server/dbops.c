@@ -1,3 +1,11 @@
+/*
+---
+- Name: Mark Jia
+- NSID: mij623
+- StuN: 11271998
+---
+*/
+
 #include "server.h"
 #include <list.h>
 /* do -llist on linker */

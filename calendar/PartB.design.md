@@ -1,5 +1,9 @@
 ---
-Definitely not GPT generated, but:
+- Name: Mark Jia
+- NSID: mij623
+- StuN: 11271998
+
+- Definitely not GPT generated, but:
  - I hope this design doc finds you well.
 ---
 
