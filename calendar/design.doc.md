@@ -384,6 +384,7 @@ to 127 events, have the it would be quite inconvenient to get the bytes to be
 aligned. So I'm happy with this approach where each response is guaranteed to
 be 13 bytes in length.
 
+## Database
 
 Would only have 1 entity: `event`, with 6 fields:
 - `username`  
@@ -397,9 +398,19 @@ For the scope and purpose of this assignment, it should be enogh.
 
 This table is pretty normalized as well.
 
+No need to think about the database and serialization/deserialization, 
+on the server's side, it's a in-memory database, implemented using a 
+simple linked list.
 
+Per the assignment spec, each user would have 1 list, and the list should 
+be sorted by order of `date` and `startTime`.
 
+Also, store the lists in a linked list, and have the size able to be
+dynamically adjusted.
 
+Insert, update, delete and select operations are all in `O(m+n)` time,
+where as `m` be the number of existing users, and `n` be the number of
+events in the user's list.
 
 
 **Disclaimer**: 
