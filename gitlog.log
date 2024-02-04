@@ -1,0 +1,199 @@
+commit feba4a9f9ea1c67069293c66807409668abb8381
+Author: Mark Jia <mjia@ualberta.ca>
+Date:   Sun Feb 4 14:55:48 2024 -0600
+
+    add names and remove empty file
+
+commit 8b0937b5793e1d14115b6c414628077de2002d08
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 14:48:02 2024 -0600
+
+    renames
+
+commit acef00397ef38335ca037169efd6635336ff6f43
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 14:43:34 2024 -0600
+
+    everything
+
+commit 198189d22fba98919e76885bc93964596df85568
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:24:57 2024 -0600
+
+    add utitlities
+
+commit bbbafa2580e75181348186f58540f86bd24af735
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:06:54 2024 -0600
+
+    make dot txt copies
+
+commit b0b5778dbf47f7a925b2222d9d71b47fad387dbe
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:06:46 2024 -0600
+
+    extract the protocol to a separate file
+
+commit 7994ecb3a6837d38ca5a8518b22a1b2a91161b55
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:06:30 2024 -0600
+
+    rename
+
+commit 5dfec1715a739f5d67ca85860b79ae28e2164f2b
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:01:19 2024 -0600
+
+    add plans for client and server
+
+commit 7c48ecec61630152ff47385fc2ed91f8134ea46a
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:01:08 2024 -0600
+
+    modified db stuff
+
+commit 428ae6e9d4410ace6943926eff087f60637288ae
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 05:00:37 2024 -0600
+
+    server-side protocol for sending responses
+
+commit 202a14b8e445d1bc8956324aa26307bc9aad5f6c
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sun Feb 4 04:59:52 2024 -0600
+
+    reword after found out db is in-memory with linked lists
+
+commit 59dd89c2f30e98e117695dff9f379f2d193cdfac
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 16:30:47 2024 -0600
+
+    db design
+
+commit db5b9f13acf89145b2c07f0238b8386b9b050cce
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 14:53:01 2024 -0600
+
+    reponse
+
+commit 885ac7bf20b0a14878db531c640f5334ba0c55da
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 13:28:33 2024 -0600
+
+    protocol part should be done
+
+commit b5d3d0429ebcccae2985681e26af3f58891eeadb
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 13:24:48 2024 -0600
+
+    time encoding
+
+commit f44e41c9dbe0b4e0287cd5c8a2505c2d619c59bc
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 13:24:29 2024 -0600
+
+    align table
+
+commit faa1fc41057cc29111bda0d98f8d1dded1f3dde6
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 12:11:08 2024 -0600
+
+    overview spec
+
+commit 53208edce4f9bdad3825947f5e200bfcf180b507
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 12:10:24 2024 -0600
+
+    date spec
+
+commit b1c858d8313f33e85208c1440f0c6b148bfc58e1
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 12:09:30 2024 -0600
+
+    varchar spec
+
+commit 9b84992d37ec114055c066769860808e67f2b2ce
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 09:48:37 2024 -0600
+
+    im not drunk when i wrote this
+
+commit c7ecd3d5e4648e3253f9474a804c697c1c82eddb
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 09:38:27 2024 -0600
+
+    begin writing protocol specs
+
+commit fac206eedbbaaeaf579a329cd30f8f4fd85e8db9
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Sat Feb 3 01:35:23 2024 -0600
+
+    part of the design doc
+
+commit 92ee7f8cce7b43877c76a3ed08d53b3482593b9f
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Fri Feb 2 22:52:20 2024 -0600
+
+    empty... don't know what's to be here yet
+
+commit 9b64a6c0f80902521be2c4a24ac0f6d64ff89550
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Fri Feb 2 22:50:58 2024 -0600
+
+    Enjoy the Reverse-Dullahan ™ Loop... :P
+    
+    need to finish the parser
+
+commit bb9850bfde1e2e05f03c817c977ff0fc58407665
+Author: mosaicthej <mjia@ualberta.ca>
+Date:   Fri Feb 2 22:50:19 2024 -0600
+
+    header... data structures....
+
+commit 5cf7bc79a8fce9535cd93acb5207a10c849cdca6
+Author: mosaicthej <mij623@usask.ca>
+Date:   Thu Feb 1 10:27:37 2024 -0600
+
+    a2.2
+
+commit a00c73ed05f0644a606b9fcaa96ace14ce280d0c
+Author: mosaicthej <mij623@usask.ca>
+Date:   Thu Feb 1 10:17:05 2024 -0600
+
+    A2.1
+
+commit 948b1cf2f5fd9f1734c6cbf82661727814b04443
+Author: mosaicthej <mij623@usask.ca>
+Date:   Thu Feb 1 09:47:56 2024 -0600
+
+    front matter
+
+commit e17236033e43ccc30792d65a82181a154e399096
+Author: mosaicthej <mij623@usask.ca>
+Date:   Wed Jan 31 17:35:45 2024 -0600
+
+    add q2
+
+commit 3e2f5150b87b0c45cb8f4659c7db4825b5c1e2e3
+Author: mosaicthej <mij623@usask.ca>
+Date:   Wed Jan 31 17:24:03 2024 -0600
+
+    calculation steps
+
+commit dedf2655210f72684758bfc90afd0e6b712d3203
+Author: mosaicthej <mij623@usask.ca>
+Date:   Wed Jan 31 17:20:41 2024 -0600
+
+    solution to q1
+
+commit 7d2ba3deb84f1da38370ce1efa3a34d8b8a47b57
+Author: mosaicthej <mij623@usask.ca>
+Date:   Wed Jan 31 16:15:56 2024 -0600
+
+    partA1. questions
+
+commit af9363c8501968d353e651915c9d31815391d02a
+Author: mosaicthej <mij623@usask.ca>
+Date:   Wed Jan 31 16:15:46 2024 -0600
+
+    questions
