@@ -4,7 +4,7 @@
 - StuN: 11271998
 
 - Definitely not GPT generated, but:
- - I hope this design doc finds you well.
+ - I hope this design doc finds you well. 🤖
 ---
 
 # TCP Calendar
